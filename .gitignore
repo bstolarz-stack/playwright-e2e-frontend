@@ -1,0 +1,19 @@
+node_modules/
+test-results/
+playwright-report/
+screenshots/
+reports/
+!reports/.gitkeep
+.playwright-mcp/
+
+# Secrets / credentials — never commit
+.env
+.env.*
+!.env.example
+
+# Windows stray redirect leftover
+nul
+
+# OS / editor
+.DS_Store
+Thumbs.db
