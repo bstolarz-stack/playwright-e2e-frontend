@@ -1,4 +1,4 @@
-name: TucanWin login.spec tests
+name: TucanWin Full Regression tests
 
 on:
   workflow_dispatch:
