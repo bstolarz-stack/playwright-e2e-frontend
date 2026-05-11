@@ -321,4 +321,100 @@ test.describe("Full regression suite para Frontend", () => {
   });
 });
 
+  /**
+   * E2E: registracion con email invalido NO debe permitir avanzar.
+   *
+   * Llena todos los campos con datos validos pero pone un email mal formado
+   * ("notanemail" — sin @ ni dominio) en los inputs de email y confirmacion.
+   * Verifica que el boton "Siguiente" quede deshabilitado.
+   */
+  test('tucanwin - registracion no avanza con email invalido', async ({ page }) => {
+    await test.step('Navegar a pagina de registro', async () => {
+      await page.goto(`${TUCANWIN_BASE_URL}/registration`, {
+        waitUntil: 'domcontentloaded',
+        timeout: 30_000,
+      });
+      await page.waitForTimeout(2000);
+
+      const countdownClose = page.getByRole('button', { name: /cerrar countdown/i });
+      if (await countdownClose.isVisible().catch(() => false)) {
+        await countdownClose.click().catch(() => {});
+        await page.waitForTimeout(500);
+      }
+    });
+
+    await test.step('Verificar que el formulario cargo', async () => {
+      await expect(page.getByRole('heading', { name: /crear tu cuenta/i })).toBeVisible();
+      await expect(page.getByRole('button', { name: 'Siguiente' })).toBeDisabled();
+    });
+
+    await test.step('Llenar DNI y Numero de Tramite', async () => {
+      const textboxes = page.getByRole('textbox');
+      await textboxes.nth(0).click();
+      await textboxes.nth(0).pressSequentially('30123456', { delay: 50 });
+      await textboxes.nth(1).click();
+      await textboxes.nth(1).pressSequentially('00123456789', { delay: 50 });
+    });
+
+    await test.step('Seleccionar genero', async () => {
+      await page.getByRole('combobox').selectOption('Masculino');
+    });
+
+    await test.step('Llenar telefono', async () => {
+      const codArea = page.getByPlaceholder('Cod. área sin el 0');
+      await codArea.click();
+      await codArea.pressSequentially('11', { delay: 50 });
+      const nroTel = page.getByPlaceholder(/Nro.*tel[eé]fono sin el 15/i);
+      await nroTel.click();
+      await nroTel.pressSequentially('55667788', { delay: 50 });
+    });
+
+    await test.step('Llenar email invalido', async () => {
+      const textboxes = page.getByRole('textbox');
+      const emailInvalido = 'notanemail';
+      await textboxes.nth(4).click();
+      await textboxes.nth(4).pressSequentially(emailInvalido, { delay: 30 });
+      await textboxes.nth(5).click();
+      await textboxes.nth(5).pressSequentially(emailInvalido, { delay: 30 });
+      // Blur para disparar validacion
+      await page.keyboard.press('Tab');
+    });
+
+    await test.step('Llenar contrasena valida', async () => {
+      const textboxes = page.getByRole('textbox');
+      const password = 'TestReg1!';
+      await textboxes.nth(6).click();
+      await textboxes.nth(6).pressSequentially(password, { delay: 50 });
+      await textboxes.nth(7).click();
+      await textboxes.nth(7).pressSequentially(password, { delay: 50 });
+      await page.keyboard.press('Tab');
+    });
+
+    await test.step('Aceptar terminos y condiciones', async () => {
+      await page.getByRole('checkbox').check();
+    });
+
+    await test.step('Verificar que el email invalido bloquea avance', async () => {
+      const textboxes = page.getByRole('textbox');
+      await expect(textboxes.nth(4)).toHaveValue('notanemail');
+      await expect(textboxes.nth(5)).toHaveValue('notanemail');
+      await expect(page.getByRole('checkbox')).toBeChecked();
+
+      // Esperar 3s por si Turnstile resuelve y deberia habilitar el boton
+      await page.waitForTimeout(3000);
+
+      // El boton "Siguiente" debe permanecer deshabilitado por email invalido,
+      // sin importar si Turnstile resolvio o no.
+      const siguienteBtn = page.getByRole('button', { name: 'Siguiente' });
+      await expect(siguienteBtn).toBeDisabled();
+
+      await page.screenshot({
+        path: 'test-results/tucanwin-registro-email-invalido.png',
+        timeout: 10_000,
+      }).catch(() => {});
+
+      console.log('OK: el boton Siguiente sigue deshabilitado con email invalido');
+    });
+  });
+
 });
