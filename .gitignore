@@ -11,6 +11,10 @@ reports/
 .env.*
 !.env.example
 
+# Workflows que solo queremos locales (no se ejecutan en GitHub)
+.github/workflows/casino-tests.yml
+.github/workflows/copilot-setup-steps.yml
+
 # Windows stray redirect leftover
 nul
 
