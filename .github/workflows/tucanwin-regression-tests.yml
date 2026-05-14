@@ -2,6 +2,10 @@ name: TucanWin Full Regression tests
 
 on:
   workflow_dispatch:
+  schedule:
+    # GitHub Actions cron es en UTC. Argentina = UTC-3 (sin DST).
+    - cron: '0 13 * * *'  # 10:00 Argentina
+    - cron: '0 18 * * *'  # 15:00 Argentina
 
 jobs:
   test:
