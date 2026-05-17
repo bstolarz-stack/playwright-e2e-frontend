@@ -5,7 +5,11 @@ import * as path from 'path';
 // Load tucanwin-specific credentials
 dotenv.config({ path: path.resolve(__dirname, '..', '..', '..', '.env.tucanwin') });
 
-export const TUCANWIN_BASE_URL = 'https://gfront-tucanwin-testing.gampix.dev/';
+// Source of truth: BASE_URL en .env.tucanwin (cargado arriba via dotenv).
+// Fallback al env de testing si no esta seteado. Sin trailing slash para componer rutas.
+export const TUCANWIN_BASE_URL = (
+  process.env.BASE_URL || 'https://gfront-tucanwin-testing.gampix.dev'
+).replace(/\/$/, '');
 
 export const TUCANWIN_CREDS = {
   username: process.env.APP_USERNAME || '',

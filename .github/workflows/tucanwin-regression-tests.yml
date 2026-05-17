@@ -1,0 +1,58 @@
+name: TucanWin UAT Full Regression tests
+
+on:
+  workflow_dispatch:
+  schedule:
+    # GitHub Actions cron es en UTC. Argentina = UTC-3 (sin DST).
+    - cron: '0 13 * * 1-5'  # 10:00 Argentina
+    - cron: '0 18 * * 1-5'  # 15:00 Argentina
+
+jobs:
+  test:
+    name: Run tests/tucanwin/login.spec.ts
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    env:
+      # TucanWin testing env. Override via repo secrets/variables if needed.
+      BASE_URL: https://gfront-tucanwin-testing.gampix.dev
+      LICENSEE: tucanwin
+      # Credentials are only needed if the (currently skipped) login spec is enabled.
+      APP_USERNAME: ${{ secrets.TUCANWIN_APP_USERNAME }}
+      PASSWORD: ${{ secrets.TUCANWIN_PASSWORD }}
+      CI: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers + OS deps
+        run: npx playwright install --with-deps chromium
+
+      - name: Run login.spec.ts
+        run: npx playwright test tests/tucanwin/login.spec.ts --reporter=list,html
+
+      - name: Upload Playwright HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
+
+      - name: Upload test-results (videos, screenshots, traces)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results/
+          retention-days: 7
