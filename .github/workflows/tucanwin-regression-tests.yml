@@ -1,4 +1,4 @@
-name: TucanWin Full Regression tests
+name: TucanWin UAT Full Regression tests
 
 on:
   workflow_dispatch:
