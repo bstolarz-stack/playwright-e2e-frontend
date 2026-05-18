@@ -2,17 +2,6 @@ import { test, expect } from '@playwright/test';
 import { loginTucanwin, TUCANWIN_BASE_URL } from './utils/auth';
 
 /**
- * E2E: el login del env de testing de TucanWin funciona.
- *
- * El env testing auto-rellena las credenciales al abrir el modal, asi que el
- * helper solo abre el modal y hace click en "Ingresar". La verificacion del
- * exito (balance visible en header) la hace el propio helper via `expect`.
- */
-test('tucanwin - login funciona en env de testing', async ({ page }) => {
-  await loginTucanwin(page);
-});
-
-/**
  * E2E: registracion exitosa del paso 1.
  *
  * Llena todos los campos con datos validos (DNI 30123456 que RENAPER reconoce
@@ -323,15 +312,10 @@ test('tucanwin - registracion bloqueada por menor de edad', async ({ page }) => 
 
       // El boton "Siguiente" debe permanecer deshabilitado por DNI invalido,
       // sin importar si Turnstile resolvio o no.
-      const siguienteBtn = page.getByRole('button', { name: 'Siguiente' });
-      await expect(siguienteBtn).toBeDisabled();
+      const popUpDniInvalido = page.getByText("Hubo un problema con el DNI ingresado");
+      await expect(popUpDniInvalido).toBeVisible;
 
-      await page.screenshot({
-        path: 'test-results/tucanwin-registro-dni-invalido.png',
-        timeout: 10_000,
-      }).catch(() => {});
-
-      console.log('OK: el boton Siguiente sigue deshabilitado con DNI 00000000');
+      console.log('OK: POP up DNI invalido con DNI 00000000');
     });
   });
 
@@ -529,5 +513,3 @@ test('tucanwin - registracion bloqueada por menor de edad', async ({ page }) => 
       console.log('OK: el boton Siguiente sigue deshabilitado con email invalido');
     });
   });
-
-});

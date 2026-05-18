@@ -5,6 +5,7 @@ screenshots/
 reports/
 !reports/.gitkeep
 .playwright-mcp/
+tests/casino/
 
 # Secrets / credentials — never commit
 .env

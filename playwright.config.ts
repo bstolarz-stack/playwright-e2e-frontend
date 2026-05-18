@@ -7,9 +7,13 @@ export default defineConfig({
   fullyParallel: false,
   workers: 1,
   retries: 0,
-  reporter: 'html',
+  reporter: [
+    ['line'], // Console output
+    ['allure-playwright'], // Allure report
+  ],
 
   use: {
+    headless: false, // Run in UI mode
     actionTimeout: 20_000,
     navigationTimeout: 60_000,
     screenshot: 'on',
