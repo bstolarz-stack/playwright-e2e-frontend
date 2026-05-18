@@ -13,7 +13,7 @@ export default defineConfig({
   ],
 
   use: {
-    headless: false, // Run in UI mode
+    headless: true,
     actionTimeout: 20_000,
     navigationTimeout: 60_000,
     screenshot: 'on',
