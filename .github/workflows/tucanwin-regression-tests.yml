@@ -59,7 +59,7 @@ jobs:
 
       - name: Generate Allure HTML report
         if: always()
-        run: npx allure generate allure-results -o allure-report --clean
+        run: npx allure generate allure-results -o allure-report
 
       - name: Upload Allure HTML report
         if: always()
