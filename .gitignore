@@ -6,6 +6,8 @@ reports/
 !reports/.gitkeep
 .playwright-mcp/
 tests/casino/
+allure-results/
+allure-report/
 
 # Secrets / credentials — never commit
 .env

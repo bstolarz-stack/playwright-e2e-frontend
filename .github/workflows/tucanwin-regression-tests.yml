@@ -38,6 +38,9 @@ jobs:
       - name: Install Playwright browsers + OS deps
         run: npx playwright install --with-deps chromium
 
+      - name: Clean stale Allure results
+        run: rm -rf allure-results allure-report
+
       - name: Run login.spec.ts
         run: npx playwright test tests/tucanwin/login.spec.ts --reporter=list,html,allure-playwright
 
