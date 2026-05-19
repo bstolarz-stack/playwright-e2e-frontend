@@ -236,7 +236,7 @@ test('tucanwin - registracion bloqueada por menor de edad', async ({ page }) => 
    * Llena el formulario con datos validos excepto el DNI (00000000) y verifica que
    * el boton "Siguiente" quede deshabilitado y/o aparezca un mensaje de error.
    */
-  test('tucanwin - registracion no avanza con DNI 00000000', async ({ page }) => {
+  test('tucanwin - registracion no avanza con DNI 00000000', { tag: '@prod' }, async ({ page }) => {
     await test.step('Navegar a pagina de registro', async () => {
       await page.goto(`${TUCANWIN_BASE_URL}/registration`, {
         waitUntil: 'domcontentloaded',
@@ -326,7 +326,7 @@ test('tucanwin - registracion bloqueada por menor de edad', async ({ page }) => 
    * inputs de contrasena y confirmacion de contrasena. Verifica que el boton
    * "Siguiente" quede deshabilitado.
    */
-  test('tucanwin - registracion no avanza con contrasena vacia', async ({ page }) => {
+  test('tucanwin - registracion no avanza con contrasena vacia', { tag: '@prod' }, async ({ page }) => {
     await test.step('Navegar a pagina de registro', async () => {
       await page.goto(`${TUCANWIN_BASE_URL}/registration`, {
         waitUntil: 'domcontentloaded',
