@@ -8,6 +8,7 @@
     "test:debug": "npx playwright test --debug",
     "test:daily": "npx tsx scripts/daily-casino-agent.ts",
     "test:heal": "npx tsx scripts/healer-agent.ts",
+    "ticket-to-tests": "npx tsx scripts/ticket-to-tests-agent.ts",
     "smoke": "npx playwright test tests/tucanwin/login.spec.ts --reporter=allure",
     "report": "npx allure generate allure-results --clean && npx allure open"
   },
