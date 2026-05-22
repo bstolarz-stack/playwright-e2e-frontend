@@ -13,7 +13,7 @@ import { loginTucanwin, TUCANWIN_BASE_URL } from './utils/auth';
  * Selectores descubiertos via MCP de Playwright (input[name="..."]):
  *   documentNumber, identificationNumber, email, confirmEmail, password, confirmPassword.
  */
-test('tucanwin - registracion exitosa paso 1', async ({ page }) => {
+test('tucanwin - registracion exitosa paso 1', { tag: ['@uat'] }, async ({ page }) => {
   await test.step('Navegar a pagina de registro', async () => {
     await page.goto(`${TUCANWIN_BASE_URL}/registration`, {
       waitUntil: 'domcontentloaded',
@@ -70,7 +70,7 @@ test('tucanwin - registracion exitosa paso 1', async ({ page }) => {
  *   "Los datos ingresados corresponden a un menor de edad..."
  * y el flujo NO avanza al paso 2.
  */
-test('tucanwin - registracion bloqueada por menor de edad', async ({ page }) => {
+test('tucanwin - registracion bloqueada por menor de edad', { tag: ['@uat'] }, async ({ page }) => {
   await test.step('Navegar a pagina de registro', async () => {
     await page.goto(`${TUCANWIN_BASE_URL}/registration`, {
       waitUntil: 'domcontentloaded',
@@ -236,7 +236,7 @@ test('tucanwin - registracion bloqueada por menor de edad', async ({ page }) => 
    * Llena el formulario con datos validos excepto el DNI (00000000) y verifica que
    * el boton "Siguiente" quede deshabilitado y/o aparezca un mensaje de error.
    */
-  test('tucanwin - registracion no avanza con DNI 00000000', { tag: '@prod' }, async ({ page }) => {
+  test('tucanwin - registracion no avanza con DNI 00000000', { tag: ['@prod', '@uat'] }, async ({ page }) => {
     await test.step('Navegar a pagina de registro', async () => {
       await page.goto(`${TUCANWIN_BASE_URL}/registration`, {
         waitUntil: 'domcontentloaded',
@@ -326,7 +326,7 @@ test('tucanwin - registracion bloqueada por menor de edad', async ({ page }) => 
    * inputs de contrasena y confirmacion de contrasena. Verifica que el boton
    * "Siguiente" quede deshabilitado.
    */
-  test('tucanwin - registracion no avanza con contrasena vacia', { tag: '@prod' }, async ({ page }) => {
+  test('tucanwin - registracion no avanza con contrasena vacia', { tag: ['@prod', '@uat'] }, async ({ page }) => {
     await test.step('Navegar a pagina de registro', async () => {
       await page.goto(`${TUCANWIN_BASE_URL}/registration`, {
         waitUntil: 'domcontentloaded',
@@ -425,7 +425,7 @@ test('tucanwin - registracion bloqueada por menor de edad', async ({ page }) => 
    * ("notanemail" — sin @ ni dominio) en los inputs de email y confirmacion.
    * Verifica que el boton "Siguiente" quede deshabilitado.
    */
-  test('tucanwin - registracion no avanza con email invalido', async ({ page }) => {
+  test('tucanwin - registracion no avanza con email invalido', { tag: ['@prod', '@uat'] }, async ({ page }) => {
     await test.step('Navegar a pagina de registro', async () => {
       await page.goto(`${TUCANWIN_BASE_URL}/registration`, {
         waitUntil: 'domcontentloaded',
