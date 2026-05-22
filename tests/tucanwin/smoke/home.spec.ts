@@ -21,7 +21,7 @@ test.beforeEach(async ({ page }) => {
   }
 });
 
-test('home - carga con header, banners y footer', async ({ page }) => {
+test('home - carga con header, banners y footer (sin login)', async ({ page }) => {
   await test.step('Header con logo y CTAs de auth', async () => {
     await expect(page).toHaveTitle(/tucanwin/i);
     const header = page.locator('header').first();
@@ -48,7 +48,7 @@ test('home - carga con header, banners y footer', async ({ page }) => {
   });
 });
 
-test('home - toggle del menu lateral abre y cierra', async ({ page }) => {
+test('home - toggle del menu lateral abre y cierra (sin login)', async ({ page }) => {
   const toggleBtn = page.getByRole('button', { name: /toggle menu/i });
   const closeBtn = page.getByRole('button', { name: /cerrar menu/i });
   const menuLink = (name: RegExp) => page.getByRole('link', { name });
@@ -72,7 +72,7 @@ test('home - toggle del menu lateral abre y cierra', async ({ page }) => {
   });
 });
 
-test('home - bottom nav navega entre secciones', async ({ page }) => {
+test('home - bottom nav navega entre secciones (sin login)', async ({ page }) => {
   const bottomNav = page.locator('nav').filter({ has: page.getByRole('link', { name: /^Casino$/i }) }).last();
 
   await test.step('Bottom nav abre Casino', async () => {
@@ -94,7 +94,7 @@ test('home - bottom nav navega entre secciones', async ({ page }) => {
   });
 });
 
-test('home - sliders muestran tarjetas de juegos', async ({ page }) => {
+test('home - sliders muestran tarjetas de juegos (sin login)', async ({ page }) => {
   // Estructura del slider: header (heading + "Ver todos") y grid de cards son
   // siblings dentro de un container. Por eso scopeamos al ancestor mas cercano
   // que contenga BOTH el link "Ver todos" Y al menos una imagen de juego con alt

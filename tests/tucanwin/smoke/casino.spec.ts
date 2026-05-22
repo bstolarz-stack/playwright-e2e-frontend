@@ -21,7 +21,7 @@ test.beforeEach(async ({ page }) => {
   }
 });
 
-test('casino - grid y contador de juegos visibles', async ({ page }) => {
+test('casino - grid y contador de juegos visibles (sin login)', async ({ page }) => {
   await test.step('URL y heading principal con N > 0', async () => {
     expect(page.url()).toContain('/casino');
     const heading = page.getByRole('heading', { name: /Todos los juegos \(\d+ juegos\)/i });
@@ -42,7 +42,7 @@ test('casino - grid y contador de juegos visibles', async ({ page }) => {
   });
 });
 
-test('casino - categorias visibles y filtrado por Tragamonedas', async ({ page }) => {
+test('casino - categorias visibles y filtrado por Tragamonedas (sin login)', async ({ page }) => {
   // En UAT el accessible-name es "<nombre> icon <nombre>" (icon span + label
   // span contribuyen ambos al name). En PROD puede no haber doubled name y
   // los nombres pueden variar (ej. "Casino en Vivo" vs "Casino Vivo"). Por
@@ -71,7 +71,7 @@ test('casino - categorias visibles y filtrado por Tragamonedas', async ({ page }
   });
 });
 
-test('casino - boton "Ver más" carga juegos adicionales', async ({ page }) => {
+test('casino - boton "Ver más" carga juegos adicionales (sin login)', async ({ page }) => {
   // El contador esta en un nodo de texto suelto del tipo
   // "Mostrando X de Y juegos". Lo localizamos por regex.
   const counter = page.getByText(/Mostrando\s+\d+\s+de\s+\d+\s+juegos/i);
@@ -98,7 +98,7 @@ test('casino - boton "Ver más" carga juegos adicionales', async ({ page }) => {
   });
 });
 
-test('casino - boton "Buscar juegos" abre input y filtra por nombre', async ({ page }) => {
+test('casino - boton "Buscar juegos" abre input y filtra por nombre (sin login)', async ({ page }) => {
   // En UAT el input tiene accessible-name "Ingresar busqueda". En PROD puede
   // no tenerlo. Como fallback localizamos cualquier textbox que se haga
   // visible despues del click.
@@ -120,7 +120,7 @@ test('casino - boton "Buscar juegos" abre input y filtra por nombre', async ({ p
   });
 });
 
-test('casino - boton "Buscar por proveedor" abre el listado de providers', async ({ page }) => {
+test('casino - boton "Buscar por proveedor" abre el listado de providers (sin login)', async ({ page }) => {
   // Antes del click contamos cuantas menciones de providers conocidos ya hay
   // en la pagina (cada game card muestra el provider, asi que el baseline > 0).
   // Despues del click esperamos que la cantidad aumente — el panel de
