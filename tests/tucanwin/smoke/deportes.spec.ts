@@ -51,7 +51,7 @@ test.beforeEach(async ({ page }) => {
   ).toBeVisible({ timeout: 60_000 });
 });
 
-test('deportes (sin login) - pagina /sports carga el iframe Digitain con search y tabs', async ({
+test('deportes (sin login) - pagina /sports carga el iframe Digitain con search y tabs', { tag: '@prod' }, async ({
   page,
 }) => {
   await test.step('La pagina /sports responde con el titulo esperado', async () => {
@@ -78,7 +78,7 @@ test('deportes (sin login) - pagina /sports carga el iframe Digitain con search 
   });
 });
 
-test('deportes (sin login) - toggle PRE-PARTIDA / EN VIVO es interactivo', async ({ page }) => {
+test('deportes (sin login) - toggle PRE-PARTIDA / EN VIVO es interactivo', { tag: '@prod' }, async ({ page }) => {
   const digitain = page.frameLocator(DIGITAIN_IFRAME_SELECTOR);
 
   await test.step('Ambos botones del toggle son visibles', async () => {
