@@ -98,7 +98,7 @@ test('deportes (sin login) - toggle PRE-PARTIDA / EN VIVO es interactivo', { tag
   });
 });
 
-test('deportes (sin login) - Bet Slip vacio visible al entrar', async ({ page }) => {
+test('deportes (sin login) - Bet Slip vacio visible al entrar', { tag: '@prod' }, async ({ page }) => {
   // FIXME: En el viewport por defecto (1280x720) el panel BET SLIP del widget
   // Digitain no se renderiza inline; el widget esta en modo compacto y el
   // betslip se abre via un toggle (referenciado en el iframe como un link
@@ -123,7 +123,7 @@ test('deportes (sin login) - Bet Slip vacio visible al entrar', async ({ page })
   });
 });
 
-test('deportes (sin login) - search dentro del iframe Digitain acepta input', async ({ page }) => {
+test('deportes (sin login) - search dentro del iframe Digitain acepta input', { tag: '@prod' }, async ({ page }) => {
   const digitain = page.frameLocator(DIGITAIN_IFRAME_SELECTOR);
   const search = digitain.getByRole('textbox', { name: /Encuentre su partido/i });
 

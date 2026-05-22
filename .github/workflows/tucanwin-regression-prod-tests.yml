@@ -44,9 +44,9 @@ jobs:
       - name: Run login.spec.ts (solo @prod)
         run: npx playwright test tests/tucanwin/login.spec.ts --grep "@prod" --reporter=list,html,allure-playwright
 
-      - name: Run smoke suite
+      - name: Run smoke suite (solo @prod)
         if: success() || failure()
-        run: npx playwright test tests/tucanwin/smoke --reporter=list,html,allure-playwright
+        run: npx playwright test tests/tucanwin/smoke --grep "@prod" --reporter=list,html,allure-playwright
 
       - name: Upload Playwright HTML report
         if: always()
