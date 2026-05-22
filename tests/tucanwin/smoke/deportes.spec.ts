@@ -51,7 +51,7 @@ test.beforeEach(async ({ page }) => {
   ).toBeVisible({ timeout: 60_000 });
 });
 
-test('deportes - pagina /sports carga el iframe Digitain con search y tabs', async ({
+test('deportes - pagina /sports carga el iframe Digitain con search y tabs (sin login)', async ({
   page,
 }) => {
   await test.step('La pagina /sports responde con el titulo esperado', async () => {
@@ -78,7 +78,7 @@ test('deportes - pagina /sports carga el iframe Digitain con search y tabs', asy
   });
 });
 
-test('deportes - toggle PRE-PARTIDA / EN VIVO es interactivo', async ({ page }) => {
+test('deportes - toggle PRE-PARTIDA / EN VIVO es interactivo (sin login)', async ({ page }) => {
   const digitain = page.frameLocator(DIGITAIN_IFRAME_SELECTOR);
 
   await test.step('Ambos botones del toggle son visibles', async () => {
@@ -98,7 +98,7 @@ test('deportes - toggle PRE-PARTIDA / EN VIVO es interactivo', async ({ page }) 
   });
 });
 
-test('deportes - Bet Slip vacio visible al entrar', async ({ page }) => {
+test('deportes - Bet Slip vacio visible al entrar (sin login)', async ({ page }) => {
   // FIXME: En el viewport por defecto (1280x720) el panel BET SLIP del widget
   // Digitain no se renderiza inline; el widget esta en modo compacto y el
   // betslip se abre via un toggle (referenciado en el iframe como un link
@@ -123,7 +123,7 @@ test('deportes - Bet Slip vacio visible al entrar', async ({ page }) => {
   });
 });
 
-test('deportes - search dentro del iframe Digitain acepta input', async ({ page }) => {
+test('deportes - search dentro del iframe Digitain acepta input (sin login)', async ({ page }) => {
   const digitain = page.frameLocator(DIGITAIN_IFRAME_SELECTOR);
   const search = digitain.getByRole('textbox', { name: /Encuentre su partido/i });
 
