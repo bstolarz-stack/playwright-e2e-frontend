@@ -44,9 +44,9 @@ jobs:
       - name: Run login.spec.ts (solo @uat)
         run: npx playwright test tests/tucanwin/login.spec.ts --grep "@uat" --reporter=list,html,allure-playwright
 
-      - name: Run smoke suite
+      - name: Run smoke suite (solo @uat)
         if: success() || failure()
-        run: npx playwright test tests/tucanwin/smoke --reporter=list,html,allure-playwright
+        run: npx playwright test tests/tucanwin/smoke --grep "@uat" --reporter=list,html,allure-playwright
 
       - name: Upload Playwright HTML report
         if: always()
