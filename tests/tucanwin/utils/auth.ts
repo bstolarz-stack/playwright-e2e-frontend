@@ -17,28 +17,35 @@ export const TUCANWIN_CREDS = {
 };
 
 /**
- * Navigate to TucanWin testing site and perform login.
- * IMPORTANT: On the testing env (gfront-tucanwin-testing.gampix.dev) the login
- * modal AUTO-FILLS the credentials. Do NOT touch the inputs — just click submit.
- * Site has zero data-testid, relies on text/role selectors.
+ * Navigate to TucanWin and perform login using credentials from `.env.tucanwin`
+ * (APP_USERNAME = DNI, PASSWORD = contrasena).
+ *
+ * Modal de login (sin testids):
+ *   - textbox "DNI"
+ *   - textbox "Contraseña"
+ *   - button "Iniciar sesión"
+ *
+ * Verifica el login esperando que aparezca el boton del balance ($) en el header.
  */
 export async function loginTucanwin(page: Page): Promise<void> {
   await page.goto(TUCANWIN_BASE_URL, { waitUntil: 'domcontentloaded' });
 
-  // Close countdown banner if present (optional)
+  // Close countdown banner if present (intercepts pointer events)
   const countdownClose = page.getByRole('button', { name: /cerrar countdown/i });
   if (await countdownClose.isVisible().catch(() => false)) {
     await countdownClose.click().catch(() => {});
   }
 
-  // Click "Ingresá" to open login modal (note: accent on the 'á')
+  // Open login modal
   await page.getByRole('button', { name: /^Ingres[aá]$/i }).click();
 
-  // Wait briefly for the modal to mount and auto-fill credentials
-  await page.waitForTimeout(500);
+  // Fill credentials. El env de testing solia auto-rellenar; la modal nueva
+  // no lo hace mas, asi que llenamos siempre desde TUCANWIN_CREDS.
+  await page.getByRole('textbox', { name: /^DNI$/i }).fill(TUCANWIN_CREDS.username);
+  await page.getByRole('textbox', { name: /Contrase[nñ]a/i }).fill(TUCANWIN_CREDS.password);
 
-  // Submit (credentials are pre-filled by the testing env)
-  await page.getByRole('button', { name: /^Ingresar$/i }).click();
+  // Submit
+  await page.getByRole('button', { name: /^Iniciar sesi[oó]n$/i }).click();
 
   // Verify we're logged in: balance button (with $) appears in header
   await expect(page.locator('header').getByRole('button', { name: /\$/ })).toBeVisible({

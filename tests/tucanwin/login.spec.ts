@@ -1,5 +1,20 @@
 import { test, expect } from '@playwright/test';
-import { loginTucanwin, TUCANWIN_BASE_URL } from './utils/auth';
+import { loginTucanwin, TUCANWIN_BASE_URL, TUCANWIN_CREDS } from './utils/auth';
+
+/**
+ * E2E: login exitoso usando las credenciales del .env.tucanwin
+ * (APP_USERNAME = DNI, PASSWORD = contrasena).
+ *
+ * El helper `loginTucanwin` abre la modal, completa los inputs DNI y
+ * Contraseña, clickea "Iniciar sesion" y verifica el login esperando que
+ * aparezca el boton del balance ($) en el header. Funciona en UAT y PROD.
+ */
+test('tucanwin - login exitoso con credenciales del env', { tag: ['@uat', '@prod'] }, async ({ page }) => {
+  expect(TUCANWIN_CREDS.username, 'APP_USERNAME debe estar definido en .env.tucanwin').toBeTruthy();
+  expect(TUCANWIN_CREDS.password, 'PASSWORD debe estar definido en .env.tucanwin').toBeTruthy();
+
+  await loginTucanwin(page);
+});
 
 /**
  * E2E: registracion exitosa del paso 1.
